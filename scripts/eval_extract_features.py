@@ -143,4 +143,5 @@ for (net_name,layer) in net_list:
     
     
     file_name = '{}/{}_{}.npy'.format(feats_dir,net_name,layer)
+    print(file_name)
     np.save(file_name,feat_list)

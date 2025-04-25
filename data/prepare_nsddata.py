@@ -114,15 +114,36 @@ print("Stimuli are loaded.")
 
 num_train, num_test = len(train_im_idx), len(test_im_idx)
 vox_dim, im_dim, im_c = num_voxel, 425, 3
-fmri_array = np.zeros((num_train,vox_dim))
-stim_array = np.zeros((num_train,im_dim,im_dim,im_c))
-for i,idx in enumerate(train_im_idx):
-    stim_array[i] = stim[idx]
-    fmri_array[i] = fmri[sorted(sig_train[idx])].mean(0)
-    print(i)
+#fmri_array = np.zeros((num_train,vox_dim))
+#stim_array = np.zeros((num_train,im_dim,im_dim,im_c))
+#for i,idx in enumerate(train_im_idx):
+#    stim_array[i] = stim[idx]
+#    fmri_array[i] = fmri[sorted(sig_train[idx])].mean(0)
+#    print(i)
 
-np.save('processed_data/subj{:02d}/nsd_train_fmriavg_nsdgeneral_sub{}.npy'.format(sub,sub),fmri_array )
-np.save('processed_data/subj{:02d}/nsd_train_stim_sub{}.npy'.format(sub,sub),stim_array )
+#np.save('processed_data/subj{:02d}/nsd_train_fmriavg_nsdgeneral_sub{}.npy'.format(sub,sub),fmri_array )
+#np.save('processed_data/subj{:02d}/nsd_train_stim_sub{}.npy'.format(sub,sub),stim_array )
+
+#demet
+os.makedirs(f'processed_data/subj{sub:02d}/chunks', exist_ok=True)
+
+chunk_size = 100  # number of samples per chunk
+fmri_chunk = []
+stim_chunk = []
+
+for i, idx in enumerate(train_im_idx):
+    stim_chunk.append(stim[idx])
+    fmri_chunk.append(fmri[sorted(sig_train[idx])].mean(0))
+
+    if (i + 1) % chunk_size == 0 or (i + 1) == len(train_im_idx):
+        chunk_id = i // chunk_size
+        np.save(f'processed_data/subj{sub:02d}/chunks/fmri_chunk_{chunk_id:03d}.npy', np.array(fmri_chunk))
+        np.save(f'processed_data/subj{sub:02d}/chunks/stim_chunk_{chunk_id:03d}.npy', np.array(stim_chunk))
+        print(f"Saved chunk {chunk_id}")
+        fmri_chunk = []
+        stim_chunk = []
+        print(i)
+#demet
 
 print("Training data is saved.")
 
