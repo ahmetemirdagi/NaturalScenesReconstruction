@@ -66,10 +66,9 @@ for idx in tqdm(range(len(pred_features)), desc="Generating images"):
     # Generate image
     with torch.no_grad():
         image = pipeline(
-            #latents = noisy_latents,
-            #prompt_embeds=cliptexts,
+            latents = noisy_latents,
+            prompt_embeds=cliptexts,
             num_inference_steps=5,
-            prompt = 'a man surfing with crazy waves, view from the top',
             guidance_scale = 1.5
                             ).images[0]
     
