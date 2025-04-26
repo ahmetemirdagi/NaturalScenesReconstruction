@@ -26,7 +26,7 @@ These modifications have led to substantial improvements in reconstruction quali
 
 ## Results
 Comparison of reconstructions using different approaches:
-<p align="center"><img src="./figures/reconstruction_grid.png" width="600" ></p>
+<p align="center"><img src="reconstruction_grid.png" width="600" ></p>
 
 ## Instructions 
 
